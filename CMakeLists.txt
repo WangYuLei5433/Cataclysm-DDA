@@ -35,6 +35,7 @@ option(CATA_CLANG_TIDY_PLUGIN "Build Cata's custom clang-tidy checks as a plugin
 option(CATA_CLANG_TIDY_EXECUTABLE "Build Cata's custom clang-tidy checks as an executable" "OFF")
 option(WARN_STALE_DATA "Warn if file integrity check fails" "OFF")
 option(TESTS "Compile Cata's tests" "ON")
+option(CATACLYSM_VOX_EXPORT "Enable Cataclysm-Vox WebSocket frame exporter." "OFF")
 set(CATA_CLANG_TIDY_INCLUDE_DIR "" CACHE STRING
         "Path to internal clang-tidy headers required for plugin (e.g. ClangTidy.h)")
 set(CATA_CHECK_CLANG_TIDY "" CACHE STRING "Path to check_clang_tidy.py for plugin tests")
@@ -107,7 +108,7 @@ endif()
 #SET(CMAKE_SHARED_LIBRARY_C_FLAGS "${CMAKE_SHARED_LIBRARY_C_FLAGS} -m32")
 #SET(CMAKE_SHARED_LIBRARY_CXX_FLAGS "${CMAKE_SHARED_LIBRARY_CXX_FLAGS} -m32")
 
-if (NOT MSVC)
+if (NOT MSVC AND CMAKE_SYSTEM_PROCESSOR MATCHES "^(x86_64|AMD64|i[3-6]86)$")
     set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mcx16")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -mcx16")
 endif()
@@ -546,4 +547,3 @@ configure_file(
 add_custom_target(uninstall
         "${CMAKE_COMMAND}"
         -P "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake")
-

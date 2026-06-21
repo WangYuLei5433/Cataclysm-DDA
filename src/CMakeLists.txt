@@ -96,6 +96,9 @@ if (TILES)
 
     target_link_libraries(cataclysm-tiles PRIVATE cataclysm-tiles-common)
     target_compile_definitions(cataclysm-tiles-common PUBLIC TILES )
+    if(CATACLYSM_VOX_EXPORT)
+        target_compile_definitions(cataclysm-tiles-common PUBLIC CATACLYSM_VOX_EXPORT)
+    endif()
     if(NOT "${CMAKE_EXPORT_COMPILE_COMMANDS}")
         target_precompile_headers(cataclysm-tiles-common PUBLIC
             "$<$<COMPILE_LANGUAGE:CXX>:${CMAKE_SOURCE_DIR}/pch/main-pch.hpp>")
@@ -292,6 +295,9 @@ if (CURSES)
 
     add_dependencies(cataclysm-common get_version)
     target_link_libraries(cataclysm PRIVATE cataclysm-common)
+    if(CATACLYSM_VOX_EXPORT)
+        target_compile_definitions(cataclysm-common PUBLIC CATACLYSM_VOX_EXPORT)
+    endif()
 
     if (LOCALIZE)
         target_include_directories(cataclysm-common PUBLIC

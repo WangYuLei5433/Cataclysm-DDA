@@ -61,6 +61,9 @@
 #include "translations.h"
 #include "type_id.h"
 #include "ui_manager.h"
+#if defined(CATACLYSM_VOX_EXPORT)
+#include "vox_exporter.h"
+#endif
 #include "cata_imgui.h"
 #if defined(MACOSX) || defined(__CYGWIN__)
 #   include <unistd.h> // getpid()
@@ -855,6 +858,10 @@ int main( int argc, const char *argv[] )
 #endif
     replay_buffered_debugmsg_prompts();
 
+#if defined(CATACLYSM_VOX_EXPORT)
+    vox_exporter::start( 9876 );
+#endif
+
     main_menu::queued_world_to_load = std::move( cli.world );
 
     while( true ) {
@@ -867,6 +874,10 @@ int main( int argc, const char *argv[] )
         get_event_bus().send<event_type::game_begin>( getVersionString() );
         while( !g->do_turn() ) {}
     }
+
+#if defined(CATACLYSM_VOX_EXPORT)
+    vox_exporter::stop();
+#endif
 
     exit_handler( -999 );
     return 0;

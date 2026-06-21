@@ -27,6 +27,9 @@
 #endif
 #include "cata_variant.h"
 #include "clzones.h"
+#if defined(CATACLYSM_VOX_EXPORT)
+#include "creature_tracker.h"
+#endif
 #include "coordinates.h"
 #include "debug.h"
 #include "debug_capture.h"
@@ -76,6 +79,9 @@
 #include "ui_manager.h"
 #include "units.h"
 #include "vehicle.h"
+#if defined(CATACLYSM_VOX_EXPORT)
+#include "vox_exporter.h"
+#endif
 #include "vpart_position.h"
 #include "weather.h"
 #include "worldfactory.h"
@@ -799,5 +805,12 @@ bool game::do_turn()
 #endif
 
     debug_menu::debug_capture::tick_if_active();
+#if defined(CATACLYSM_VOX_EXPORT)
+    std::vector<const npc *> vox_npcs;
+    for( npc &guy : all_npcs() ) {
+        vox_npcs.push_back( &guy );
+    }
+    vox_exporter::on_turn_end( u, m, get_creature_tracker(), vox_npcs );
+#endif
     return false;
 }

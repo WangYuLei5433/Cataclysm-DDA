@@ -537,7 +537,7 @@ cata_path PATH_INFO::names()
 
 void PATH_INFO::set_datadir( const std::string &datadir )
 {
-    datadir_value = datadir;
+    datadir_value = datadir.empty() || datadir.back() == '/' ? datadir : datadir + '/';
     datadir_path_value = cata_path{ cata_path::root_path::data, std::filesystem::path{} };
     // Shared dirs
     gfxdir_value = datadir_value + "gfx/";

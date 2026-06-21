@@ -1,0 +1,1 @@
+/workspace/cdda/lang/mo/zh_CN/LC_MESSAGES/cataclysm-dda.mo
